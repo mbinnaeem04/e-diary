@@ -71,6 +71,7 @@ E-Diary/
    ```env
    PORT=5001
    NODE_ENV=development
+   FRONTEND_URL=http://localhost:5173
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret_key
    UPSTASH_REDIS_REST_URL=your_upstash_redis_url
@@ -142,3 +143,23 @@ The backend will serve both the `/api/*` endpoints and the compiled React fronte
 ## 📄 License
 
 ISC License
+
+---
+
+## 🚀 Deploy (Separate: Railway + Vercel)
+
+### Backend → Railway
+1. Repo: `backend/` folder ko Railway pe connect karo
+2. Environment Variables set karo:
+   - `NODE_ENV=production`
+   - `FRONTEND_URL=https://your-frontend.vercel.app` (no trailing slash)
+   - `MONGODB_URI`, `JWT_SECRET`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`
+3. Deploy. URL mil jayega (e.g. `https://my-app.up.railway.app`).
+
+### Frontend → Vercel
+1. Import `frontend/` folder separately (ya root repo se `frontend/` select karo)
+2. Add Environment Variable: `VITE_API_URL=https://your-backend.up.railway.app`
+3. Build Command: `npm run build`  →  Output Directory: `dist`
+4. Deploy.
+
+**Note:** Vercel pe `VITE_API_URL` build ke waqt bake hota hai. Agar backend URL badalta hai toh Vercel pe redeploy karna padega.

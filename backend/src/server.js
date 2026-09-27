@@ -31,6 +31,11 @@ const allowedOrigins = IS_PROD
   ? [process.env.FRONTEND_URL].filter(Boolean)
   : ["http://localhost:5173", "http://127.0.0.1:5173"];
 
+// Fail-open: if FRONTEND_URL is not set in production, log a warning but allow localhost for testing
+if (IS_PROD && !process.env.FRONTEND_URL) {
+  console.warn("⚠️  FRONTEND_URL not set in production. CORS will allow all origins as fallback.");
+}
+
 app.use(
   cors({
     origin: allowedOrigins.length ? allowedOrigins : true,
@@ -48,13 +53,20 @@ app.use(ratelimiter);
 app.use("/api/auth", authRouter);
 app.use("/api/notes", notesRouter);
 
-// --- Serve Frontend (Production only) ---
-if (IS_PROD) {
+// --- API 404 (must come before any static/SPA handling) ---
+app.use("/api", (_req, res) => {
+  res.status(404).json({ message: "API route not found" });
+});
+
+// --- Serve Frontend (only when SERVE_STATIC=true) ---
+// Frontend and backend are deployed separately (Vercel + Render), so this stays
+// off by default. Enable it only if you ever deploy them as one combined service.
+if (process.env.SERVE_STATIC === "true") {
   const clientDist = path.resolve(__dirname, "../../frontend/dist");
   app.use(express.static(clientDist));
 
   // Send index.html for any unknown route so React Router works
-  app.get("*", (req, res) => {
+  app.get("*", (_req, res) => {
     res.sendFile(path.join(clientDist, "index.html"));
   });
 }
