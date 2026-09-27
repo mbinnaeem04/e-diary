@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-canvas font-body text-ink antialiased;
+    overflow: hidden; /* each screen manages its own scrolling */
+  }
+  ::selection {
+    background: #ffe878;
+    color: #2b2d42;
+  }
+}
+
+@layer components {
+  /*
+    Notebook ruled lines (the only gradient in the project, used purely for the line effect).
+    Set --lh (line height) and --line (line colour) inline per use.
+    The text's line-height equals --lh, so every line of text sits on a rule.
+    Don't add Tailwind text-size presets (text-lg etc.) to .ruled elements: they set their own
+    line-height and break the alignment. Use arbitrary sizes like text-[18px] instead.
+  */
+  .ruled {
+    --lh: 28px;
+    --line: #e5e5e5;
+    line-height: var(--lh);
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent calc(var(--lh) - 1px),
+      var(--line) calc(var(--lh) - 1px),
+      var(--line) var(--lh)
+    );
+  }
+}

@@ -1,0 +1,19 @@
+# Node / npm
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Build artifacts
+/frontend/dist/
+/backend/build/
+
+# Environment / secrets
+.env
+.env.*
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
