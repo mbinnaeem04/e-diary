@@ -2,6 +2,8 @@
 
 A personal and interactive digital diary built with **React**, **Tailwind CSS**, **Framer Motion**, and an **Express / MongoDB** backend with Upstash Redis rate limiting and JWT authentication.
 
+**🌐 Live Demo:** [e-diary-mernstack.vercel.app](https://e-diary-mernstack.vercel.app/)
+
 ---
 
 ## 🌟 Features
